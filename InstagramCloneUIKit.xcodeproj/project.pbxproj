@@ -17,6 +17,8 @@
 		741155352A20B590009843F9 /* ImageSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741155342A20B590009843F9 /* ImageSelectorController.swift */; };
 		741155372A20B59A009843F9 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741155362A20B59A009843F9 /* NotificationController.swift */; };
 		741155392A20B62D009843F9 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741155382A20B62D009843F9 /* ProfileController.swift */; };
+		7462DBFE2A2132BA000C3F58 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DBFD2A2132BA000C3F58 /* FeedCell.swift */; };
+		7462DC002A21331E000C3F58 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DBFF2A21331E000C3F58 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		741155342A20B590009843F9 /* ImageSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectorController.swift; sourceTree = "<group>"; };
 		741155362A20B59A009843F9 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		741155382A20B62D009843F9 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
+		7462DBFD2A2132BA000C3F58 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		7462DBFF2A21331E000C3F58 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,7 @@
 		741155262A20B419009843F9 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				7462DBFF2A21331E000C3F58 /* Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -110,6 +115,7 @@
 		7411552C2A20B42B009843F9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7462DBFC2A2132B0000C3F58 /* Cells */,
 				7411552E2A20B47E009843F9 /* MainTabController.swift */,
 				741155302A20B579009843F9 /* FeedController.swift */,
 				741155322A20B585009843F9 /* SearchController.swift */,
@@ -125,6 +131,14 @@
 			children = (
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		7462DBFC2A2132B0000C3F58 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				7462DBFD2A2132BA000C3F58 /* FeedCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,9 +216,11 @@
 				7411552F2A20B47E009843F9 /* MainTabController.swift in Sources */,
 				741155372A20B59A009843F9 /* NotificationController.swift in Sources */,
 				741155152A20B3DC009843F9 /* SceneDelegate.swift in Sources */,
+				7462DC002A21331E000C3F58 /* Extensions.swift in Sources */,
 				741155352A20B590009843F9 /* ImageSelectorController.swift in Sources */,
 				741155312A20B579009843F9 /* FeedController.swift in Sources */,
 				741155392A20B62D009843F9 /* ProfileController.swift in Sources */,
+				7462DBFE2A2132BA000C3F58 /* FeedCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
