@@ -7,12 +7,17 @@
 
 import UIKit
 
+protocol ProfileHeaderDelegate: AnyObject {
+    func header(_ profileHeader: ProfileHedaerView, didTapActionButtonFor user: User)
+}
 class ProfileHedaerView: UICollectionReusableView {
     
     //MARK: - Properties
     static var reuseIdentifier: String {
         return String(describing: self)
     }
+    
+    weak var delegate: ProfileHeaderDelegate?
     
     var viewModel: ProfileHeaderViewModel? {
         didSet { configure() }
@@ -35,7 +40,7 @@ class ProfileHedaerView: UICollectionReusableView {
     
     private lazy var editProfileButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Edit Profile", for: .normal)
+        button.setTitle("Loading", for: .normal)
         button.layer.cornerRadius = 3
         button.layer.borderWidth = 0.5
         button.layer.borderColor = UIColor.lightGray.cgColor
@@ -49,7 +54,6 @@ class ProfileHedaerView: UICollectionReusableView {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.attributedText = attributedStatText(value: 13, label: "Posts")
         return label
     }()
     
@@ -57,7 +61,6 @@ class ProfileHedaerView: UICollectionReusableView {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.attributedText = attributedStatText(value: 31, label: "Followers")
         return label
     }()
     
@@ -65,7 +68,6 @@ class ProfileHedaerView: UICollectionReusableView {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.attributedText = attributedStatText(value: 25 , label: "Following")
         return label
     }()
     
@@ -138,22 +140,25 @@ class ProfileHedaerView: UICollectionReusableView {
     }
     
     //MARK: - Helpers
-    func attributedStatText(value: Int, label: String) -> NSAttributedString {
-        let attributedText = NSMutableAttributedString(string: "\(value) \n ", attributes: [.font : UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: label, attributes: [.font : UIFont.systemFont(ofSize: 14), .foregroundColor : UIColor.lightGray]))
-        return attributedText
-    }
-    
+
     func configure() {
         guard let viewModel else { return }
         nameLabel.text = viewModel.fullName
         profileImageView.downloadImage(fromUrl: viewModel.profileImageurl)
+        editProfileButton.setTitle(viewModel.followButtonText, for: .normal)
+        editProfileButton.setTitleColor(viewModel.followButtonTextColor, for: .normal)
+        editProfileButton.backgroundColor = viewModel.followButtonBackgroundColor
+        
+        postsLabel.attributedText = viewModel.numberOfPosts
+        followersLabel.attributedText = viewModel.numberOfFollowers
+        followingLabel.attributedText = viewModel.numberOfFollowing
     }
     
     
     //MARK: - Actions
     
     @objc func editProfileButtonTapped() {
-        
+        guard let user = viewModel?.user else { return }
+        delegate?.header(self, didTapActionButtonFor: user)
     }
 }
