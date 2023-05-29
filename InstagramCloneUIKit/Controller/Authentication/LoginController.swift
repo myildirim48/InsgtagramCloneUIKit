@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import JGProgressHUD
+
 class LoginController: UIViewController {
     //MARK: - Properties
     
@@ -80,7 +82,21 @@ class LoginController: UIViewController {
     //MARK: - Actions
     
     @objc func handleLogin(){
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordField.text else { return }
         
+        let hud = JGProgressHUD(style: .dark)
+        hud.textLabel.text = "User is logging in..."
+        hud.show(in: view)
+        
+        AuthService.logUserIn(email: email, password: password) { authResult, error in
+            if let error {
+                print("DEEBUG: Error while log user in, \(error.localizedDescription)")
+                return
+            }
+            hud.dismiss(animated: true)
+            self.dismiss(animated: true)
+        }
     }
     
     @objc func handleForgotPassword() {
@@ -98,6 +114,7 @@ class LoginController: UIViewController {
         } else {
             viewModel.password = sender.text
         }
+        updateForm()
     }
 }
 //MARK: -  FormviewModel Delegate

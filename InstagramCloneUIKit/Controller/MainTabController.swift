@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 class MainTabController: UITabBarController {
     
     //MARK: -  Properties
@@ -19,9 +20,36 @@ class MainTabController: UITabBarController {
         let tabbarApperance = UITabBar.appearance()
         tabbarApperance.tintColor = .black
         tabbarApperance.backgroundColor = .systemGray6
+        checkIfUserLoggedIn()
     }
     
+    //MARK: - API
+    
+    func checkIfUserLoggedIn() {
+        if Auth.auth().currentUser == nil {
+            presentLoginController()
+        }
+    }
+    
+    func logOut() {
+        do {
+            try Auth.auth().signOut()
+            presentLoginController()
+        } catch {
+            print("DEBUG: Error while logout")
+        }
+    }
+
     //MARK: - Helpers
+    
+    func presentLoginController() {
+        DispatchQueue.main.async {
+            let controller = LoginController()
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
+        }
+    }
     
     func configureViewControllers() {
 
