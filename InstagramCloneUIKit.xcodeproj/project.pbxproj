@@ -38,6 +38,13 @@
 		7462DC2A2A24800B000C3F58 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC292A24800B000C3F58 /* AuthService.swift */; };
 		7462DC2C2A248012000C3F58 /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC2B2A248012000C3F58 /* ImageUploader.swift */; };
 		7462DC2E2A248930000C3F58 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC2D2A248930000C3F58 /* User.swift */; };
+		7462DC312A249D29000C3F58 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC302A249D29000C3F58 /* ProfileCell.swift */; };
+		7462DC332A249D30000C3F58 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC322A249D30000C3F58 /* ProfileHeaderView.swift */; };
+		7462DC352A24AFD9000C3F58 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC342A24AFD9000C3F58 /* UserService.swift */; };
+		7462DC372A24AFFA000C3F58 /* Constans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC362A24AFFA000C3F58 /* Constans.swift */; };
+		7462DC392A24B274000C3F58 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC382A24B274000C3F58 /* ProfileHeaderViewModel.swift */; };
+		7462DC3B2A24D943000C3F58 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC3A2A24D943000C3F58 /* UserCell.swift */; };
+		7462DC3D2A24DE2E000C3F58 /* UserCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC3C2A24DE2E000C3F58 /* UserCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +73,13 @@
 		7462DC292A24800B000C3F58 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		7462DC2B2A248012000C3F58 /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		7462DC2D2A248930000C3F58 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		7462DC302A249D29000C3F58 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		7462DC322A249D30000C3F58 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		7462DC342A24AFD9000C3F58 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		7462DC362A24AFFA000C3F58 /* Constans.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constans.swift; sourceTree = "<group>"; };
+		7462DC382A24B274000C3F58 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
+		7462DC3A2A24D943000C3F58 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		7462DC3C2A24DE2E000C3F58 /* UserCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				7462DBFF2A21331E000C3F58 /* Extensions.swift */,
+				7462DC362A24AFFA000C3F58 /* Constans.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -136,6 +151,7 @@
 				7462DC252A247CCF000C3F58 /* ImageFetcher.swift */,
 				7462DC292A24800B000C3F58 /* AuthService.swift */,
 				7462DC2B2A248012000C3F58 /* ImageUploader.swift */,
+				7462DC342A24AFD9000C3F58 /* UserService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -158,6 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				7462DC0D2A225B7E000C3F58 /* AuthenticationViewModel.swift */,
+				7462DC382A24B274000C3F58 /* ProfileHeaderViewModel.swift */,
+				7462DC3C2A24DE2E000C3F58 /* UserCellViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -165,6 +183,7 @@
 		7411552C2A20B42B009843F9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7462DC2F2A249D24000C3F58 /* Profile */,
 				7462DC062A220A29000C3F58 /* CustomViews */,
 				7462DBFC2A2132B0000C3F58 /* Cells */,
 			);
@@ -183,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				7462DBFD2A2132BA000C3F58 /* FeedCell.swift */,
+				7462DC3A2A24D943000C3F58 /* UserCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -204,6 +224,15 @@
 				7462DC0B2A222175000C3F58 /* TextButton.swift */,
 			);
 			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		7462DC2F2A249D24000C3F58 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				7462DC302A249D29000C3F58 /* ProfileCell.swift */,
+				7462DC322A249D30000C3F58 /* ProfileHeaderView.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,16 +324,23 @@
 			files = (
 				7462DC082A220A33000C3F58 /* CustomTextField.swift in Sources */,
 				7462DC0A2A2212F3000C3F58 /* AuthButton.swift in Sources */,
+				7462DC372A24AFFA000C3F58 /* Constans.swift in Sources */,
 				7462DC032A22069C000C3F58 /* LoginController.swift in Sources */,
 				7462DC2A2A24800B000C3F58 /* AuthService.swift in Sources */,
 				7462DC2C2A248012000C3F58 /* ImageUploader.swift in Sources */,
 				7462DC262A247CCF000C3F58 /* ImageFetcher.swift in Sources */,
+				7462DC312A249D29000C3F58 /* ProfileCell.swift in Sources */,
+				7462DC352A24AFD9000C3F58 /* UserService.swift in Sources */,
 				741155132A20B3DC009843F9 /* AppDelegate.swift in Sources */,
+				7462DC392A24B274000C3F58 /* ProfileHeaderViewModel.swift in Sources */,
 				7462DC0E2A225B7E000C3F58 /* AuthenticationViewModel.swift in Sources */,
 				7462DC2E2A248930000C3F58 /* User.swift in Sources */,
 				741155332A20B585009843F9 /* SearchController.swift in Sources */,
+				7462DC3D2A24DE2E000C3F58 /* UserCellViewModel.swift in Sources */,
+				7462DC3B2A24D943000C3F58 /* UserCell.swift in Sources */,
 				7411552F2A20B47E009843F9 /* MainTabController.swift in Sources */,
 				7462DC0C2A222175000C3F58 /* TextButton.swift in Sources */,
+				7462DC332A249D30000C3F58 /* ProfileHeaderView.swift in Sources */,
 				741155372A20B59A009843F9 /* NotificationController.swift in Sources */,
 				741155152A20B3DC009843F9 /* SceneDelegate.swift in Sources */,
 				7462DC002A21331E000C3F58 /* Extensions.swift in Sources */,

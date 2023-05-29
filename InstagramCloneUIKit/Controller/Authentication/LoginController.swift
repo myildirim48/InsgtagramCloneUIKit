@@ -8,11 +8,16 @@
 import UIKit
 import JGProgressHUD
 
+protocol AuthenticationDelegate: AnyObject {
+    func authenticationCompleted()
+}
+
 class LoginController: UIViewController {
     //MARK: - Properties
     
     private var viewModel = LoginViewModel()
-    
+    weak var delegate: AuthenticationDelegate?
+
     private let iconImage: UIImageView = {
         let iv = UIImageView(image: #imageLiteral(resourceName: "Instagram_logo_white") )
         iv.contentMode = .scaleAspectFill
@@ -95,7 +100,8 @@ class LoginController: UIViewController {
                 return
             }
             hud.dismiss(animated: true)
-            self.dismiss(animated: true)
+            self.delegate?.authenticationCompleted()
+//            self.dismiss(animated: true)
         }
     }
     
@@ -105,6 +111,7 @@ class LoginController: UIViewController {
     
     @objc func handleRegister() {
         let controller = RegistrationController()
+        controller.delegate = delegate
         navigationController?.pushViewController(controller, animated: true)
     }
     

@@ -30,7 +30,9 @@ struct AuthService {
                 let userData = User(email: credential.email, fullName: credential.fullName, profileImageUrl: imageUrl, uid: uid, userName: credential.userName)
                 
                 guard let encodedUser = try? Firestore.Encoder().encode(userData) else { return }
-                Firestore.firestore().collection("users").document(uid).setData(encodedUser)
+                
+                COLLECTION_USERS
+                    .document(uid).setData(encodedUser)
             }
             
         }

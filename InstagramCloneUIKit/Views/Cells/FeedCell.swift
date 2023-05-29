@@ -8,6 +8,9 @@
 import UIKit
 class FeedCell: UICollectionViewCell {
     //MARK: - Properties
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
     
     private let profileImageView: UIImageView = {
         let iv = UIImageView()

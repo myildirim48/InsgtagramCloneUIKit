@@ -7,8 +7,6 @@
 
 import UIKit
 import Firebase
-private let reuseIdentifier = "identifier"
-
 class FeedController: UICollectionViewController {
     
     //MARK: -  Lifecycle
@@ -20,7 +18,7 @@ class FeedController: UICollectionViewController {
     //MARK: - Helpers
     func configureUI() {
         collectionView.backgroundColor = .white
-        collectionView.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(FeedCell.self, forCellWithReuseIdentifier: FeedCell.reuseIdentifier)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         navigationItem.title = "Feed"
     }
@@ -30,6 +28,7 @@ class FeedController: UICollectionViewController {
         do {
             try Auth.auth().signOut()
                 let controller = LoginController()
+            controller.delegate = self.tabBarController as? MainTabController
                 let nav = UINavigationController(rootViewController: controller)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true)
@@ -45,7 +44,7 @@ extension FeedController {
         return 6
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell 
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCell.reuseIdentifier, for: indexPath) as! FeedCell 
         return cell
     }
 }
