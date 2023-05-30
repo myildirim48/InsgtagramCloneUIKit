@@ -63,8 +63,8 @@ struct UserService {
         }
     }
     //MARK: - User logic
-    static func fetchUser(completion: @escaping(User) -> Void){
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+    static func fetchUser(withUid uid: String,completion: @escaping(User) -> Void){
+        
         COLLECTION_USERS
             .document(uid).getDocument { snapShot, error in
                 if let error {

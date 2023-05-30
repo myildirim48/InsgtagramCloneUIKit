@@ -16,9 +16,10 @@ struct AuthCredentials {
     let userName: String
     let profileImage: UIImage
 }
+
 struct AuthService {
     static func registerUser(withCredential credential: AuthCredentials, completion: @escaping (Error?)-> Void) {
-        ImageUploader.uploadImage(image: credential.profileImage) { imageUrl in
+        ImageUploader.uploadImage(image: credential.profileImage, type: .profile) { imageUrl in
             Auth.auth().createUser(withEmail: credential.email, password: credential.password) { authResult, error in
                 if let error {
                     print("DEBUG : Errorr while creating user, \(error.localizedDescription)")
@@ -32,7 +33,8 @@ struct AuthService {
                 guard let encodedUser = try? Firestore.Encoder().encode(userData) else { return }
                 
                 COLLECTION_USERS
-                    .document(uid).setData(encodedUser)
+                    .document(uid).setData(encodedUser,completion: completion)
+                
             }
             
         }

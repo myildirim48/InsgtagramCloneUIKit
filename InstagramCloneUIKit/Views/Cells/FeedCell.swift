@@ -8,6 +8,13 @@
 import UIKit
 class FeedCell: UICollectionViewCell {
     //MARK: - Properties
+    
+    var viewModel: PostViewModel? {
+        didSet {
+            configure()
+        }
+    }
+    
     static var reuseIdentifier: String {
         return String(describing: self)
     }
@@ -25,7 +32,6 @@ class FeedCell: UICollectionViewCell {
     private let userNameButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitleColor(.black, for: .normal)
-        button.setTitle("Username", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         return button
     }()
@@ -46,7 +52,7 @@ class FeedCell: UICollectionViewCell {
     
     private let commentButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "buble.right"), for: .normal)
+        button.setImage(UIImage(systemName: "bubble.right"), for: .normal)
         button.tintColor = .black
         return button
     }()
@@ -59,21 +65,18 @@ class FeedCell: UICollectionViewCell {
     
     private let likesLabel: UILabel = {
         let label = UILabel()
-        label.text = "1 likes"
         label.font = UIFont.boldSystemFont(ofSize: 13)
         return label
     }()
     
     private let captionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Write something about post."
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
     private let postTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "2d"
         label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = .lightGray
         return label
@@ -117,9 +120,18 @@ class FeedCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     //MARK: - Helpers
+    
+    func configure() {
+        guard let viewModel else { return }
+        captionLabel.text = viewModel.caption
+        postImageView.downloadImage(fromUrl: viewModel.imageUrl)
+        profileImageView.downloadImage(fromUrl: viewModel.ownerImageUrl)
+        userNameButton.setTitle(viewModel.ownerUsername, for: .normal)
+        likesLabel.text = viewModel.likes
+        postTimeLabel.text = viewModel.timeStamp
+    }
     func addActions() {
         userNameButton.addTarget(self, action: #selector(didTapUsername), for: .touchUpInside)
-        
     }
     
     func confgiureButtons() {

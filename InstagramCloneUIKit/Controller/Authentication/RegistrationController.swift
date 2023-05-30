@@ -91,6 +91,7 @@ class RegistrationController: UIViewController {
         let hud = JGProgressHUD(style: .dark)
         hud.textLabel.text = "Creating user.."
         hud.show(in: view)
+        
         guard let email = emailTextField.text else { return }
         guard let password = passwordField.text else { return }
         guard let fullname = fullnameField.text else { return }
@@ -104,8 +105,8 @@ class RegistrationController: UIViewController {
                 print("DEBUG: Error while creating user, \(error.localizedDescription)")
                 return
             }
-            hud.dismiss(animated: true)
             self.delegate?.authenticationCompleted()
+            hud.dismiss(animated: true)
         }
         
     }
