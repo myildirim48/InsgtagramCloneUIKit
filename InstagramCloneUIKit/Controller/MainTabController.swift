@@ -94,15 +94,7 @@ class MainTabController: UITabBarController {
         navController.tabBarItem.image = UIImage(systemName: itemImage)
         return navController
     }
-    
-    func templateNavigationController(unselectedImage: UIImage, selectedImage: UIImage, rootViewController: UIViewController) -> UINavigationController {
-        let nav = UINavigationController(rootViewController: rootViewController)
-        nav.tabBarItem.image = unselectedImage
-        nav.tabBarItem.selectedImage = selectedImage
-        nav.navigationBar.tintColor = .black
-        return nav
-    }
-    
+
     func didFinishPicking (_ picker: YPImagePicker) {
         picker.didFinishPicking { items, _ in
             picker.dismiss(animated: false)
@@ -156,5 +148,9 @@ extension MainTabController: PostUploadDelegate {
     func controllerDidFinishUploadingPost(_ controller: UploadPostController) {
         selectedIndex = 0
         controller.dismiss(animated: true)
+        
+        guard let feedNav = viewControllers?.first as? UINavigationController else { return }
+        guard let feed = feedNav.viewControllers.first as? FeedController else { return }
+        feed.handleRefresh()
     }
 }

@@ -11,6 +11,7 @@ class ProfileController: UICollectionViewController {
     //MARK: -  Properties
     
     private var user: User
+    private var posts = [Post]()
     
     //MARK: - Lifcecycle
     
@@ -29,6 +30,7 @@ class ProfileController: UICollectionViewController {
         configureCollectionView()
         checkIfUserFollowed()
         fetchUserStats()
+        fetchPosts()
     }
     
     
@@ -48,6 +50,14 @@ class ProfileController: UICollectionViewController {
         }
     }
     
+    func fetchPosts() {
+        PostService.fetchPost(withUid: user.uid) { posts in
+            self.posts = posts
+            print(posts)
+            self.collectionView.reloadData()
+        }
+    }
+    
     func fetchUserStats() {
         UserService.fetchUserStats(uid: user.uid) { stats in
             self.user.stats = stats
@@ -58,11 +68,12 @@ class ProfileController: UICollectionViewController {
 //MARK: - UICollectionView Datasource
 extension ProfileController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.reuseIdentifier, for: indexPath) as! ProfileCell
+            cell.viewModel = PostViewModel(post: posts[indexPath.row])
         return cell
     }
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -75,7 +86,11 @@ extension ProfileController {
 
 //MARK: - UICollectionView Delegate
 extension ProfileController{
-    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let controller = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
+        controller.post = posts[indexPath.row]
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 //MARK: - UICollectionViewFlowLayout
 extension ProfileController: UICollectionViewDelegateFlowLayout{

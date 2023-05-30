@@ -10,7 +10,7 @@ import FirebaseFirestoreSwift
 
 struct PostService {
     static func fetchPosts(completion: @escaping([Post]) -> Void) {
-        COLLECTION_POSTS.order(by: "timestamp",descending: true).getDocuments { snapShot, error in
+        COLLECTION_POSTS.order(by: "timestamp", descending: true).getDocuments { snapShot, error in
             if let error {
                 print("DEBUG: Error while fetching posts. \(error.localizedDescription)")
                 return
@@ -21,17 +21,18 @@ struct PostService {
         }
     }
     
-    static func fetchPosts(withUid uid: String, completion: @escaping([Post]) -> Void) {
-        COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid).getDocuments { snaphsot, error in
-            if let error {
-                print("DEBUG: Error while fetching posts. \(error.localizedDescription)")
-                return
+    static func fetchPost(withUid uid: String, completion: @escaping([Post]) -> Void) {
+        COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid)
+            .getDocuments { snaphsot, error in
+                if let error {
+                    print("DEBUG: Error while fetching posts. \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let document = snaphsot?.documents else { return }
+                var posts = document.compactMap { try? $0.data(as: Post.self) }
+                posts = posts.sorted { $0.timestamp.dateValue() > $1.timestamp.dateValue() }
+                completion(posts)
             }
-            
-            guard let document = snaphsot?.documents else { return }
-            var posts = document.compactMap { try? $0.data(as: Post.self) }
-            posts = posts.sorted { $0.timestamp.dateValue() > $1.timestamp.dateValue() }
-            completion(posts)
-        }
     }
 }

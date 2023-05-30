@@ -26,7 +26,12 @@ struct PostViewModel {
     }
     
     var likes: String {
-        return "\(post.likes) likes"
+        if post.likes == 1 || post.likes == 0 {
+            return "\(post.likes) like"
+        }else {
+            return "\(post.likes) likes"
+        }
+        
     }
     
     var timeStamp: String {

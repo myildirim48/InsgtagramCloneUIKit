@@ -26,5 +26,5 @@ struct User: Identifiable, Codable {
 struct UserStats: Codable {
     var following: Int
     var followers: Int
-//    var posts: Int
+    var posts: Int
 }

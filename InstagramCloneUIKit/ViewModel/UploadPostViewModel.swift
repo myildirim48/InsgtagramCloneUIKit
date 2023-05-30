@@ -19,7 +19,6 @@ class UploadPostViewModel {
     func uploadPost(caption: String, image: UIImage, completion: @escaping((Error?) -> Void)) {
         
         guard let user = currentUser else { return }
-        guard let userID = currentUser?.id else { return }
         
         ImageUploader.uploadImage(image: image, type: .post) { imageUrl in
             
@@ -27,7 +26,7 @@ class UploadPostViewModel {
             
             guard let encodedPost = try? Firestore.Encoder().encode(data) else { return }
             
-            COLLECTION_POSTS.document(userID).setData(encodedPost, completion: completion)
+            COLLECTION_POSTS.addDocument(data: encodedPost, completion: completion)
         }
     }
     

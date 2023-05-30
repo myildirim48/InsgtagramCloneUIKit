@@ -39,7 +39,6 @@ class FeedCell: UICollectionViewCell {
     private let postImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(systemName: "person.fill")
         return iv
     }()
     
@@ -101,7 +100,7 @@ class FeedCell: UICollectionViewCell {
         addSubview(postImageView)
         postImageView.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor,
                              paddingTop: 8)
-        postImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
+        postImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 1.25).isActive = true
         
         addActions()
         confgiureButtons()
