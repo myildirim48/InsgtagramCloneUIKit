@@ -53,7 +53,6 @@ class ProfileController: UICollectionViewController {
     func fetchPosts() {
         PostService.fetchPost(withUid: user.uid) { posts in
             self.posts = posts
-            print(posts)
             self.collectionView.reloadData()
         }
     }

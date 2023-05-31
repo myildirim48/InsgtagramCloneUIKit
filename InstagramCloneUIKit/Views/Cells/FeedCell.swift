@@ -6,6 +6,9 @@
 //
 
 import UIKit
+protocol FeedCellDelegate: AnyObject {
+    func cell(_ cell: FeedCell, wantsToShowComments post: Post)
+}
 class FeedCell: UICollectionViewCell {
     //MARK: - Properties
     
@@ -14,6 +17,8 @@ class FeedCell: UICollectionViewCell {
             configure()
         }
     }
+    
+    weak var delegate: FeedCellDelegate?
     
     static var reuseIdentifier: String {
         return String(describing: self)
@@ -131,6 +136,8 @@ class FeedCell: UICollectionViewCell {
     }
     func addActions() {
         userNameButton.addTarget(self, action: #selector(didTapUsername), for: .touchUpInside)
+        commentButton.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
+        likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
     }
     
     func confgiureButtons() {
@@ -145,6 +152,13 @@ class FeedCell: UICollectionViewCell {
     
     //MARK: - Actions
     @objc func didTapUsername() {
+        
+    }
+    @objc func handleComment() {
+        guard let viewModel else { return }
+        delegate?.cell(self, wantsToShowComments: viewModel.post)
+    }
+    @objc func handleLike() {
         
     }
 }

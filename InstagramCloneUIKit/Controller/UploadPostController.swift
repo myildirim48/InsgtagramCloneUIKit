@@ -34,7 +34,7 @@ class UploadPostController: UIViewController {
     private let captionTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "Enter caption..."
-        
+        tv.placeholderShowCenter = false
         return tv
     }()
     
