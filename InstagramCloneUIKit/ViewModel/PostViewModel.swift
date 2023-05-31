@@ -7,7 +7,7 @@
 
 import UIKit
 struct PostViewModel {
-     let post: Post
+    let post: Post
     
     var imageUrl: String {
         return post.imageUrl

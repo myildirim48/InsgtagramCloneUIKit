@@ -91,6 +91,7 @@ class MainTabController: UITabBarController {
 
     func createTabbarItem(view: UIViewController ,itemImage: String) -> UINavigationController{
         let navController = UINavigationController(rootViewController: view)
+        navController.navigationBar.tintColor = .black
         navController.tabBarItem.image = UIImage(systemName: itemImage)
         return navController
     }

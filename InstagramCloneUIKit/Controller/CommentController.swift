@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import JGProgressHUD
 class CommentController: UICollectionViewController {
     
     //MARK: - Properties
@@ -16,13 +17,24 @@ class CommentController: UICollectionViewController {
         return cv
     }()
     
-    //MARK: - Lifecycle
+    private let post: Post
+    private let viewModel: CommentViewModel
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    init(post: Post) {
+        self.post = post
+        self.viewModel = CommentViewModel(post: post)
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
         configureCollectionView()
+
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    //MARK: - Lifecycle
+
     override var inputAccessoryView: UIView? {
         get { return commentInputView }
     }
@@ -52,24 +64,33 @@ class CommentController: UICollectionViewController {
     }
 }
 
-//MARK: - CollectionView Delegate
+//MARK: - CollectionView Datasource
 extension CommentController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return viewModel.comments.count
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.reuseIdentifier, for: indexPath )
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCell.reuseIdentifier, for: indexPath) as! CommentCell
+        cell.viewModel = CommentCellViewModel(comment: viewModel.comments[indexPath.row])
+        cell.delegate = self
         return cell
     }
 }
-//MARK: - CollectionView DataSoure
+//MARK: - CollectionView Delegate
 extension CommentController {
-    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let uid = viewModel.comments[indexPath.row].uid
+        UserService.fetchUser(withUid: uid) { user in
+            
+        }
+    }
 }
 //MARK: - CollectionView FlowLayout
 extension CommentController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 80)
+        let viewModel = CommentCellViewModel(comment: viewModel.comments[indexPath.row])
+        let height = viewModel.size(forWidth: view.frame.width).height + 32
+        return CGSize(width: view.frame.width, height: height)
     }
 }
 
@@ -77,5 +98,22 @@ extension CommentController: UICollectionViewDelegateFlowLayout {
 extension CommentController: CommentInputAccessoryViewDelegate {
     func inputView(_ inputView: CommentInputAccessoryView, wantsToUploadComment comment: String) {
         inputView.clearCommentTextView()
+        let hud = JGProgressHUD(style: .dark)
+        hud.textLabel.text = "Commenting..."
+        hud.show(in: view)
+        
+        viewModel.uploadComment(caption: comment) { _ in
+            hud.dismiss()
+            self.collectionView.reloadData()
+        }
+    }
+}
+//MARK: - CommentCell Delegate
+extension CommentController: CommentCellDelegate {
+    func comment(wantstoShowProfileFor user: String) {
+        UserService.fetchUser(withUid: user) { user in
+            let controller = ProfileController(user: user)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
     }
 }
