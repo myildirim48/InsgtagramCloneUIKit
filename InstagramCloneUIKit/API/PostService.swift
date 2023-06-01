@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseFirestoreSwift
 
 struct PostService {
@@ -35,4 +36,41 @@ struct PostService {
                 completion(posts)
             }
     }
+    
+    static func likePost(post: Post, completion: @escaping(FirestoreCompletion)) {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        guard let postID = post.id else { return }
+        
+        COLLECTION_POSTS.document(postID).collection("post-likes").document(currentUserUid)
+            .setData([:]) { _ in
+                COLLECTION_USERS.document(currentUserUid).collection("user-likes").document(postID)
+                    .setData([:]) { _ in
+                        COLLECTION_POSTS.document(postID).updateData(["likes": post.likes + 1],completion: completion)
+                    }
+            }
+    }
+    
+   static func unlikePost(post: Post, completion: @escaping(FirestoreCompletion)) {
+       guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+       guard let postID = post.id else { return }
+       guard post.likes > 0 else { return }
+       
+        COLLECTION_POSTS.document(postID).collection("post-likes").document(currentUserUid).delete { _ in
+            COLLECTION_USERS.document(currentUserUid).collection("user-likes").document(postID)
+                .delete { _ in
+                    COLLECTION_POSTS.document(postID).updateData(["likes": post.likes - 1],completion: completion)
+                }
+        }
+    }
+    
+    static func checkIfUserLikedPost(post: Post, completion: @escaping(Bool) -> Void) {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        guard let postID = post.id else { return }
+        COLLECTION_USERS.document(currentUserUid).collection("user-likes").document(postID)
+            .getDocument { snapshot, _ in
+                guard let didLike = snapshot?.exists else { return }
+                    completion(didLike)
+            }
+    }
+    
 }

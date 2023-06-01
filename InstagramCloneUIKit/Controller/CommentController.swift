@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import JGProgressHUD
 class CommentController: UICollectionViewController {
     
     //MARK: - Properties
@@ -25,7 +24,7 @@ class CommentController: UICollectionViewController {
         self.viewModel = CommentViewModel(post: post)
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
         configureCollectionView()
-
+        
     }
     
     required init?(coder: NSCoder) {
@@ -34,7 +33,7 @@ class CommentController: UICollectionViewController {
     
     
     //MARK: - Lifecycle
-
+    
     override var inputAccessoryView: UIView? {
         get { return commentInputView }
     }
@@ -98,12 +97,10 @@ extension CommentController: UICollectionViewDelegateFlowLayout {
 extension CommentController: CommentInputAccessoryViewDelegate {
     func inputView(_ inputView: CommentInputAccessoryView, wantsToUploadComment comment: String) {
         inputView.clearCommentTextView()
-        let hud = JGProgressHUD(style: .dark)
-        hud.textLabel.text = "Commenting..."
-        hud.show(in: view)
+        showLoader(true, text: "Commenting...")
         
         viewModel.uploadComment(caption: comment) { _ in
-            hud.dismiss()
+            self.showLoader(false)
             self.collectionView.reloadData()
         }
     }

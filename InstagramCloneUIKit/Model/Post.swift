@@ -18,5 +18,5 @@ struct Post: Codable, Identifiable {
     let timestamp: Timestamp
     let ownerUserName: String
     
-//    var didLike: Bool? = false
+    var didLike: Bool?
 }

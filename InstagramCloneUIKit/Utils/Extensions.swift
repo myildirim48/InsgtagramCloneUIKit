@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import JGProgressHUD
 
 //MARK: - ImageView
 extension UIImageView{
@@ -21,7 +22,7 @@ extension UIImageView{
 
 //MARK: - UIViewController extensions
 extension UIViewController {
-//    static let hud = JGProgressHUD(style: .dark)
+    static let hud = JGProgressHUD(style: .dark)
     
     func configureGradientLayer() {
         let gradient = CAGradientLayer()
@@ -31,15 +32,16 @@ extension UIViewController {
         gradient.frame = view.frame
     }
     
-//    func showLoader(_ show: Bool) {
-//        view.endEditing(true)
-//        
-//        if show {
-//            UIViewController.hud.show(in: view)
-//        } else {
-//            UIViewController.hud.dismiss()
-//        }
-//    }
+    func showLoader(_ show: Bool, text: String = "") {
+        view.endEditing(true)
+        
+        if show {
+            UIViewController.hud.show(in: view)
+            UIViewController.hud.textLabel.text = text
+        } else {
+            UIViewController.hud.dismiss()
+        }
+    }
     
     func showMessage(withTitle title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

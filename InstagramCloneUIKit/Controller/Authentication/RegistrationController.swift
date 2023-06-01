@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import JGProgressHUD
 class RegistrationController: UIViewController {
     //MARK: - Properties
     
@@ -88,9 +87,8 @@ class RegistrationController: UIViewController {
     }
     
     @objc func handleRegister() {
-        let hud = JGProgressHUD(style: .dark)
-        hud.textLabel.text = "Creating user.."
-        hud.show(in: view)
+        
+        showLoader(true,text: "Creating user..")
         
         guard let email = emailTextField.text else { return }
         guard let password = passwordField.text else { return }
@@ -106,9 +104,8 @@ class RegistrationController: UIViewController {
                 return
             }
             self.delegate?.authenticationCompleted()
-            hud.dismiss(animated: true)
+            self.showLoader(false)
         }
-        
     }
     
     @objc func handleShowLogin() {

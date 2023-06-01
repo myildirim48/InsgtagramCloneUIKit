@@ -8,11 +8,12 @@
 import UIKit
 protocol FeedCellDelegate: AnyObject {
     func cell(_ cell: FeedCell, wantsToShowComments post: Post)
+    func cell(_ cell: FeedCell, didLike post: Post)
 }
 class FeedCell: UICollectionViewCell {
     //MARK: - Properties
     
-    var viewModel: PostViewModel? {
+    var viewModel: FeedCellViewModel? {
         didSet {
             configure()
         }
@@ -47,10 +48,8 @@ class FeedCell: UICollectionViewCell {
         return iv
     }()
     
-    private let likeButton: UIButton = {
+    let likeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.tintColor = .black
         return button
     }()
     
@@ -67,7 +66,7 @@ class FeedCell: UICollectionViewCell {
         return button
     }()
     
-    private let likesLabel: UILabel = {
+    let likesLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 13)
         return label
@@ -118,21 +117,24 @@ class FeedCell: UICollectionViewCell {
         
         addSubview(postTimeLabel)
         postTimeLabel.anchor(top: captionLabel.bottomAnchor, left: leftAnchor, paddingTop: 8, paddingLeft: 8)
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     //MARK: - Helpers
-    
     func configure() {
         guard let viewModel else { return }
         captionLabel.text = viewModel.caption
         postImageView.downloadImage(fromUrl: viewModel.imageUrl)
         profileImageView.downloadImage(fromUrl: viewModel.ownerImageUrl)
         userNameButton.setTitle(viewModel.ownerUsername, for: .normal)
-        likesLabel.text = viewModel.likes
+        likesLabel.text = viewModel.likeButtonText()
         postTimeLabel.text = viewModel.timeStamp
+        
+        likeButton.tintColor = viewModel.likeButtonColor
+        likeButton.setImage(UIImage(systemName: viewModel.likeButtonImageString), for: .normal)
     }
     func addActions() {
         userNameButton.addTarget(self, action: #selector(didTapUsername), for: .touchUpInside)
@@ -141,7 +143,7 @@ class FeedCell: UICollectionViewCell {
     }
     
     func confgiureButtons() {
-       let buttonsStackView = UIStackView(arrangedSubviews: [likeButton, commentButton, shareButton])
+        let buttonsStackView = UIStackView(arrangedSubviews: [likeButton, commentButton, shareButton])
         buttonsStackView.axis = .horizontal
         buttonsStackView.distribution = .fillEqually
         buttonsStackView.spacing = 8
@@ -159,6 +161,19 @@ class FeedCell: UICollectionViewCell {
         delegate?.cell(self, wantsToShowComments: viewModel.post)
     }
     @objc func handleLike() {
+        guard let viewModel else { return }
+        delegate?.cell(self, didLike: viewModel.post)
         
+        if viewModel.didLike {
+            viewModel.post.likes += 1
+        } else {
+            viewModel.post.likes -= 1
+        }
+        
+        likeButton.setImage(UIImage(systemName: viewModel.likeButtonImageString), for: .normal)
+        likeButton.tintColor = viewModel.likeButtonColor
+        likesLabel.text = viewModel.likeButtonText()
+
+        viewModel.post.didLike?.toggle()
     }
 }

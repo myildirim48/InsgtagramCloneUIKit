@@ -11,7 +11,11 @@ class FeedController: UICollectionViewController {
     
     //MARK: - Properties
     
-    private var posts = [Post]()
+    private var posts = [Post]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     var post: Post?
     
     //MARK: -  Lifecycle
@@ -30,7 +34,6 @@ class FeedController: UICollectionViewController {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
             navigationItem.title = "Feed"
         }
-        navigationItem.leftBarButtonItem?.tintColor = .black
         
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
@@ -43,7 +46,17 @@ class FeedController: UICollectionViewController {
         PostService.fetchPosts { posts in
             self.posts = posts
             self.collectionView.refreshControl?.endRefreshing()
-            self.collectionView.reloadData()
+            self.checkIfUserLiked()
+        }
+    }
+    
+    func checkIfUserLiked() {
+        self.posts.forEach { post in
+            PostService.checkIfUserLikedPost(post: post) { didLike in
+                if let index = self.posts.firstIndex(where: { $0.id == post.id }) {
+                    self.posts[index].didLike = didLike
+                }
+            }
         }
     }
     
@@ -51,11 +64,11 @@ class FeedController: UICollectionViewController {
     @objc func handleLogout() {
         do {
             try Auth.auth().signOut()
-                let controller = LoginController()
+            let controller = LoginController()
             controller.delegate = self.tabBarController as? MainTabController
-                let nav = UINavigationController(rootViewController: controller)
-                nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true)
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
         } catch {
             print("DEBUG: Error while logout")
         }
@@ -76,9 +89,9 @@ extension FeedController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCell.reuseIdentifier, for: indexPath) as! FeedCell
         cell.delegate = self
         if let post {
-            cell.viewModel = PostViewModel(post: post)
+            cell.viewModel = FeedCellViewModel(post: post)
         }else {
-            cell.viewModel = PostViewModel(post: posts[indexPath.row])
+            cell.viewModel = FeedCellViewModel(post: posts[indexPath.row])
         }
         return cell
     }
@@ -101,5 +114,20 @@ extension FeedController: FeedCellDelegate {
         
         navigationController?.pushViewController(controller, animated: true)
         navigationController?.navigationBar.tintColor = .black
+    }
+    
+    func cell(_ cell: FeedCell, didLike post: Post) {
+        cell.viewModel?.didLike.toggle()
+        guard let didlike = post.didLike else { return }
+        showLoader(true)
+        if didlike {
+            PostService.unlikePost(post: post) { _ in
+                self.showLoader(false)
+            }
+        }else {
+            PostService.likePost(post: post) { _ in
+                self.showLoader(false)
+            }
+        }
     }
 }

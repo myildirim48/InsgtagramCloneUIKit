@@ -13,7 +13,7 @@ class ProfileCell: UICollectionViewCell {
         return String(describing: self)
     }
     
-    var viewModel: PostViewModel? {
+    var viewModel: ProfileCellViewModel? {
         didSet { configure() }
     }
     

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import JGProgressHUD
 
 protocol PostUploadDelegate: AnyObject {
     func controllerDidFinishUploadingPost(_ controller: UploadPostController)
@@ -92,15 +91,12 @@ class UploadPostController: UIViewController {
     }
     @objc func handleDone() {
         
-        let hud = JGProgressHUD(style: .dark)
-        hud.textLabel.text = "Uploading post..."
-        hud.show(in: view)
+       showLoader(true, text: "Uploading post...")
         
         guard let selectedImage else { return }
         guard let caption = captionTextView.text else { return }
         viewModel.uploadPost(caption: caption, image: selectedImage) { _ in
-            hud.dismiss()
-            
+            self.showLoader(false)
             self.delegate?.controllerDidFinishUploadingPost(self)
         }
     }
