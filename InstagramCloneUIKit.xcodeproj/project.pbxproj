@@ -58,6 +58,8 @@
 		7462DC532A272D5A000C3F58 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC522A272D5A000C3F58 /* CommentViewModel.swift */; };
 		7462DC552A27314B000C3F58 /* CommentCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC542A27314B000C3F58 /* CommentCellViewModel.swift */; };
 		7462DC572A2765D2000C3F58 /* FeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC562A2765D2000C3F58 /* FeedCellViewModel.swift */; };
+		7462DC592A29D5B6000C3F58 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC582A29D5B6000C3F58 /* NotificationCell.swift */; };
+		7462DC5B2A29DC4A000C3F58 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC5A2A29DC4A000C3F58 /* Notification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +108,8 @@
 		7462DC522A272D5A000C3F58 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		7462DC542A27314B000C3F58 /* CommentCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellViewModel.swift; sourceTree = "<group>"; };
 		7462DC562A2765D2000C3F58 /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
+		7462DC582A29D5B6000C3F58 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		7462DC5A2A29DC4A000C3F58 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +234,7 @@
 				7462DC2D2A248930000C3F58 /* User.swift */,
 				7462DC442A25EB68000C3F58 /* Post.swift */,
 				7462DC502A272CCB000C3F58 /* Comment.swift */,
+				7462DC5A2A29DC4A000C3F58 /* Notification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -240,6 +245,7 @@
 				7462DBFD2A2132BA000C3F58 /* FeedCell.swift */,
 				7462DC3A2A24D943000C3F58 /* UserCell.swift */,
 				7462DC4C2A2678F1000C3F58 /* CommentCell.swift */,
+				7462DC582A29D5B6000C3F58 /* NotificationCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -377,6 +383,7 @@
 				7462DC472A25F06E000C3F58 /* UploadPostViewModel.swift in Sources */,
 				7462DC392A24B274000C3F58 /* ProfileHeaderViewModel.swift in Sources */,
 				7462DC0E2A225B7E000C3F58 /* AuthenticationViewModel.swift in Sources */,
+				7462DC592A29D5B6000C3F58 /* NotificationCell.swift in Sources */,
 				7462DC552A27314B000C3F58 /* CommentCellViewModel.swift in Sources */,
 				7462DC2E2A248930000C3F58 /* User.swift in Sources */,
 				741155332A20B585009843F9 /* SearchController.swift in Sources */,
@@ -398,6 +405,7 @@
 				741155352A20B590009843F9 /* ImageSelectorController.swift in Sources */,
 				7462DC432A25EAFE000C3F58 /* PostService.swift in Sources */,
 				741155312A20B579009843F9 /* FeedController.swift in Sources */,
+				7462DC5B2A29DC4A000C3F58 /* Notification.swift in Sources */,
 				741155392A20B62D009843F9 /* ProfileController.swift in Sources */,
 				7462DC052A2206A1000C3F58 /* RegistrationController.swift in Sources */,
 				7462DBFE2A2132BA000C3F58 /* FeedCell.swift in Sources */,

@@ -109,11 +109,18 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
 }
 //MARK: - FeedCell Delegate
 extension FeedController: FeedCellDelegate {
+    func cell(_ cell: FeedCell, wantsToShowProfile userUid: String) {
+        UserService.fetchUser(withUid: userUid) { user in
+            
+            let controller = ProfileController(user: user)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
     func cell(_ cell: FeedCell, wantsToShowComments post: Post) {
-        let controller = CommentController(post: post)
         
+        let controller = CommentController(post: post)
         navigationController?.pushViewController(controller, animated: true)
-        navigationController?.navigationBar.tintColor = .black
+//        navigationController?.navigationBar.tintColor = .black
     }
     
     func cell(_ cell: FeedCell, didLike post: Post) {

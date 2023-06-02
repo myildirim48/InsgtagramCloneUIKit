@@ -9,6 +9,7 @@ import UIKit
 protocol FeedCellDelegate: AnyObject {
     func cell(_ cell: FeedCell, wantsToShowComments post: Post)
     func cell(_ cell: FeedCell, didLike post: Post)
+    func cell(_ cell: FeedCell, wantsToShowProfile userUid: String)
 }
 class FeedCell: UICollectionViewCell {
     //MARK: - Properties
@@ -140,6 +141,10 @@ class FeedCell: UICollectionViewCell {
         userNameButton.addTarget(self, action: #selector(didTapUsername), for: .touchUpInside)
         commentButton.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        profileImageView.isUserInteractionEnabled = true
+        profileImageView.addGestureRecognizer(tap)
     }
     
     func confgiureButtons() {
@@ -153,8 +158,13 @@ class FeedCell: UICollectionViewCell {
     }
     
     //MARK: - Actions
-    @objc func didTapUsername() {
+    @objc func handleTap() {
         
+    }
+    
+    @objc func didTapUsername() {
+        guard let viewModel else { return }
+        delegate?.cell(self, wantsToShowProfile: viewModel.post.ownerUid)
     }
     @objc func handleComment() {
         guard let viewModel else { return }
