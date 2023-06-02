@@ -51,7 +51,7 @@ class ProfileController: UICollectionViewController {
     }
     
     func fetchPosts() {
-        PostService.fetchPost(withUid: user.uid) { posts in
+        PostService.fetchPosts(withUid: user.uid) { posts in
             self.posts = posts
             self.collectionView.reloadData()
         }
@@ -125,6 +125,7 @@ extension ProfileController: ProfileHeaderDelegate{
             UserService.follow(uid: user.uid) { _ in
                 self.user.isFollowed = true
                 self.collectionView.reloadData()
+                NotificationService.uploadNotification(toUserUid: user.uid, type: .follow)
             }
         }
     }

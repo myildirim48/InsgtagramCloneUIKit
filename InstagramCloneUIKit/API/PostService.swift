@@ -22,7 +22,20 @@ struct PostService {
         }
     }
     
-    static func fetchPost(withUid uid: String, completion: @escaping([Post]) -> Void) {
+    static func fetchPost(withPostId id: String, completion: @escaping(Post) -> Void ) {
+        COLLECTION_POSTS.document(id).getDocument { snapshot, error in
+            if let error {
+                print("DEBUG: Error while fetching post. \(error.localizedDescription)")
+                return
+            }
+            guard let snapshot else { return }
+            guard let post = try? snapshot.data(as: Post.self) else { return }
+
+            completion(post)
+        }
+    }
+    
+    static func fetchPosts(withUid uid: String, completion: @escaping([Post]) -> Void) {
         COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid)
             .getDocuments { snaphsot, error in
                 if let error {

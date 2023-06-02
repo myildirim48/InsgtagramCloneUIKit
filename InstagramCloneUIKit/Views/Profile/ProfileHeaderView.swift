@@ -45,7 +45,6 @@ class ProfileHedaerView: UICollectionReusableView {
         button.layer.borderWidth = 0.5
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(editProfileButtonTapped), for: .touchUpInside)
         return button
     }()

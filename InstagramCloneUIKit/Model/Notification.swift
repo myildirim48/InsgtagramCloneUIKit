@@ -21,8 +21,7 @@ struct Notification: Identifiable, Codable {
     let type: NotificationType
     let uid: String
     
-    var userIsFollowed: Bool? = false
-
+    var userIsFollowed: Bool = false
 }
 
 enum NotificationType: Int, Codable {

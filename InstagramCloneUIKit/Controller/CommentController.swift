@@ -102,6 +102,7 @@ extension CommentController: CommentInputAccessoryViewDelegate {
         viewModel.uploadComment(caption: comment) { _ in
             self.showLoader(false)
             self.collectionView.reloadData()
+            NotificationService.uploadNotification(toUserUid: self.post.ownerUid, type: .comment, post: self.post)
         }
     }
 }
