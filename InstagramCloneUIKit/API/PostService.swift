@@ -35,6 +35,19 @@ struct PostService {
         }
     }
     
+    static func fetchFeedPosts(completion: @escaping([Post]) -> Void) {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        var posts = [Post]()
+        COLLECTION_USERS.document(currentUserUid).collection("user-feed").getDocuments { snapshot, error in
+            snapshot?.documents.forEach({ document in
+                fetchPost(withPostId: document.documentID) { post in
+                    posts.append(post)
+                    completion(posts)
+                }
+            })
+        }
+    }
+    
     static func fetchPosts(withUid uid: String, completion: @escaping([Post]) -> Void) {
         COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid)
             .getDocuments { snaphsot, error in
@@ -86,4 +99,21 @@ struct PostService {
             }
     }
     
+    static func updateUserFeedAfterFollowing(user: User, didFollow: Bool) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let query = COLLECTION_POSTS.whereField("ownerUid", isEqualTo: user.uid)
+        query.getDocuments { snapshot, _ in
+            guard let documents = snapshot?.documents else { return }
+            let docsID = documents.map { $0.documentID }
+            
+            docsID.forEach { id in
+                if didFollow {
+                    COLLECTION_USERS.document(uid).collection("user-feed").document(id).setData([:])
+                } else {
+                    COLLECTION_USERS.document(uid).collection("user-feed").document(id).delete()
+                }
+            }
+        }
+    }
+
 }

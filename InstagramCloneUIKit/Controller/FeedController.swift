@@ -43,7 +43,7 @@ class FeedController: UICollectionViewController {
     
     func fetchPosts() {
         guard post == nil else { return }
-        PostService.fetchPosts { posts in
+        PostService.fetchFeedPosts { posts in
             self.posts = posts
             self.collectionView.refreshControl?.endRefreshing()
             self.checkIfUserLiked()
@@ -103,7 +103,6 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
         
         let width = view.frame.width
         let hegiht = width * 1.7
-        
         return CGSize(width: view.frame.width, height: hegiht)
     }
 }
@@ -120,7 +119,6 @@ extension FeedController: FeedCellDelegate {
         
         let controller = CommentController(post: post)
         navigationController?.pushViewController(controller, animated: true)
-//        navigationController?.navigationBar.tintColor = .black
     }
     
     func cell(_ cell: FeedCell, didLike post: Post) {

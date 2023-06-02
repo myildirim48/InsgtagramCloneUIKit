@@ -26,7 +26,20 @@ class UploadPostViewModel {
             
             guard let encodedPost = try? Firestore.Encoder().encode(data) else { return }
             
-            COLLECTION_POSTS.addDocument(data: encodedPost, completion: completion)
+            let docref = COLLECTION_POSTS.addDocument(data: encodedPost, completion: completion)
+            self.updateUserFeedAfterPost(postId: docref.documentID)
+        }
+    }
+    
+    
+    private func updateUserFeedAfterPost(postId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments { snapshot, _ in
+            guard let documenst = snapshot?.documents else { return }
+            documenst.forEach { document in
+                COLLECTION_USERS.document(document.documentID).collection("user-feed").document(postId).setData([:])
+            }
+            COLLECTION_FOLLOWERS.document(uid).collection("user-feed").document(postId).setData([:])
         }
     }
     
