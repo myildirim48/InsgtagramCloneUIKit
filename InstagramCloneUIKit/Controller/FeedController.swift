@@ -49,7 +49,7 @@ class FeedController: UICollectionViewController {
             self.checkIfUserLiked()
         }
     }
-    
+
     func checkIfUserLiked() {
         self.posts.forEach { post in
             PostService.checkIfUserLikedPost(post: post) { didLike in
@@ -134,6 +134,7 @@ extension FeedController: FeedCellDelegate {
         }else {
             PostService.likePost(post: post) { _ in
                 self.showLoader(false)
+                NotificationService.uploadNotification(toUserUid: post.ownerUid, type: .like, post: post)
             }
         }
     }

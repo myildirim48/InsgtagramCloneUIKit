@@ -10,16 +10,19 @@ import FirebaseFirestoreSwift
 
 struct Notification: Identifiable, Codable {
     @DocumentID var id: String?
-    var postId: String?
+    
     let username: String
     let profileImageUrl: String
+    
+    var postId: String?
+    var postImageUrl: String?
+    
     let timestamp: Timestamp
     let type: NotificationType
     let uid: String
     
     var userIsFollowed: Bool? = false
-    var post:Post?
-    var user:User?
+
 }
 
 enum NotificationType: Int, Codable {

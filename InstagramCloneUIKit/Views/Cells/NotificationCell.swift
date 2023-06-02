@@ -12,6 +12,12 @@ class NotificationCell: UITableViewCell {
     static var reuseIdentifier: String {
         return String(describing: self)
     }
+    
+    var viewModel: NotificationViewModel? {
+        didSet { configure() }
+    }
+    
+    
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -81,6 +87,11 @@ class NotificationCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    //MARK: - Helper
+    func configure() {
+        guard let viewModel else { return }
+        profileImageView.downloadImage(fromUrl: viewModel.profileImageUrl)
     }
     
     //MARK: - Actions
