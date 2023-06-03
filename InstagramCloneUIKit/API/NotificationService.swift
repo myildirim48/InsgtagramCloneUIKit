@@ -18,7 +18,7 @@ struct NotificationService {
             var data = Notification(username: currentUser.userName,
                                     profileImageUrl: currentUser.profileImageUrl,
                                     timestamp: Timestamp(date: Date()),
-                                    type: type, uid: uid)
+                                    type: type, uid: currentUid)
             
             if let post {
                 data.postId = post.id

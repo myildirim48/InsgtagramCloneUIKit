@@ -10,18 +10,18 @@ import Firebase
 import FirebaseFirestoreSwift
 
 struct PostService {
-    static func fetchPosts(completion: @escaping([Post]) -> Void) {
-        COLLECTION_POSTS.order(by: "timestamp", descending: true).getDocuments { snapShot, error in
-            if let error {
-                print("DEBUG: Error while fetching posts. \(error.localizedDescription)")
-                return
-            }
-            guard let documents = snapShot?.documents else { return }
-            let posts = documents.compactMap { try? $0.data(as: Post.self) }
-            completion(posts)
-        }
-    }
-    
+//    static func fetchPosts(completion: @escaping([Post]) -> Void) {
+//        COLLECTION_POSTS.order(by: "timestamp", descending: true).getDocuments { snapShot, error in
+//            if let error {
+//                print("DEBUG: Error while fetching posts. \(error.localizedDescription)")
+//                return
+//            }
+//            guard let documents = snapShot?.documents else { return }
+//            let posts = documents.compactMap { try? $0.data(as: Post.self) }
+//            completion(posts)
+//        }
+//    }
+//
     static func fetchPost(withPostId id: String, completion: @escaping(Post) -> Void ) {
         COLLECTION_POSTS.document(id).getDocument { snapshot, error in
             if let error {
@@ -34,14 +34,25 @@ struct PostService {
             completion(post)
         }
     }
-    
+    static func updateUserFeedAfterPost(postId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments { snapshot, _ in
+            guard let documents = snapshot?.documents else { return }
+            documents.forEach { document in
+                COLLECTION_USERS.document(document.documentID).collection("user-feed").document(postId).setData([:])
+            }
+            COLLECTION_USERS.document(uid).collection("user-feed").document(postId).setData([:])
+        }
+    }
     static func fetchFeedPosts(completion: @escaping([Post]) -> Void) {
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         var posts = [Post]()
+
         COLLECTION_USERS.document(currentUserUid).collection("user-feed").getDocuments { snapshot, error in
             snapshot?.documents.forEach({ document in
                 fetchPost(withPostId: document.documentID) { post in
                     posts.append(post)
+                    posts = posts.sorted { $0.timestamp.dateValue() > $1.timestamp.dateValue() }
                     completion(posts)
                 }
             })
@@ -59,7 +70,9 @@ struct PostService {
                 guard let document = snaphsot?.documents else { return }
                 var posts = document.compactMap { try? $0.data(as: Post.self) }
                 posts = posts.sorted { $0.timestamp.dateValue() > $1.timestamp.dateValue() }
+
                 completion(posts)
+
             }
     }
     
@@ -99,7 +112,9 @@ struct PostService {
             }
     }
     
-    static func updateUserFeedAfterFollowing(user: User, didFollow: Bool) {
+    static func updateUserFeedAfterFollowing(userUid: String, didFollow: Bool) {
+        UserService.fetchUser(withUid: userUid) { user in
+            
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let query = COLLECTION_POSTS.whereField("ownerUid", isEqualTo: user.uid)
         query.getDocuments { snapshot, _ in
@@ -114,6 +129,7 @@ struct PostService {
                 }
             }
         }
+    }
     }
 
 }

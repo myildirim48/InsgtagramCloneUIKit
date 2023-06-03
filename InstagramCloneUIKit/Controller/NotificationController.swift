@@ -64,6 +64,13 @@ class NotificationController: UITableViewController {
         }
     }
     
+    func fetchAndShowProfile(uid: String) {
+        UserService.fetchUser(withUid: uid) { user in
+            let controller = ProfileController(user: user)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
+    
     func fetchAndShowPost(uid: String) {
         PostService.fetchPost(withPostId: uid) { post in
             let controller = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
@@ -88,23 +95,27 @@ extension NotificationController {
 //MARK: - TableView Datasource
 extension NotificationController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let uid = notifications[indexPath.row].postId else { return }
-        fetchAndShowPost(uid: uid)
+        if notifications[indexPath.row].postImageUrl != nil {
+            guard let uid = notifications[indexPath.row].postId else { return }
+            fetchAndShowPost(uid: uid)
+        }else {
+            let uid = notifications[indexPath.row].uid
+            fetchAndShowProfile(uid: uid)
+        }
+
     }
 }
 //MARK: - Notificationcell Delegate
 extension NotificationController: NotificationCellDelegate {
     func cell(_ cell: NotificationCell, wansToShowProfile uid: String) {
-        UserService.fetchUser(withUid: uid) { user in
-            let controller = ProfileController(user: user)
-            self.navigationController?.pushViewController(controller, animated: true)
-        }
+    fetchAndShowProfile(uid: uid)
     }
     func cell(_ cell: NotificationCell, wantsToFollowUser uid: String) {
         showLoader(true, text: "Following")
             UserService.follow(uid: uid) { _ in
             NotificationService.uploadNotification(toUserUid: uid, type: .follow)
                 cell.viewModel?.notification.userIsFollowed.toggle()
+                PostService.updateUserFeedAfterFollowing(userUid: uid, didFollow: true)
                 self.showLoader(false)
         }
     }
@@ -113,6 +124,7 @@ extension NotificationController: NotificationCellDelegate {
         showLoader(true, text: "Unfollowing")
         UserService.unfollow(uid: uid) { _ in
             cell.viewModel?.notification.userIsFollowed.toggle()
+            PostService.updateUserFeedAfterFollowing(userUid: uid, didFollow: false)
             self.showLoader(false)
         }
     }

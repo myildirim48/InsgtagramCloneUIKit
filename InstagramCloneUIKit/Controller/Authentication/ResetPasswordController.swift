@@ -16,6 +16,7 @@ class ResetPasswordController: UIViewController {
     private var viewModel = ResetPasswordViewModel()
     
     weak var delegate: ResetPasswordControllerDelegate?
+    var email: String?
     
     private let emailField = CustomTextField(placeholder: "Email")
     private let iconImage: UIImageView = {
@@ -52,7 +53,11 @@ class ResetPasswordController: UIViewController {
     func configureUI() {
         configureGradientLayer()
 
+        
         emailField.addTarget(self, action: #selector(textDidchange), for: .editingChanged)
+        emailField.text = email
+        viewModel.email = email
+        updateForm()
         
         view.addSubview(backButton)
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 16, paddingLeft: 16)

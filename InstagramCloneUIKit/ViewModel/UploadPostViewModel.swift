@@ -35,11 +35,11 @@ class UploadPostViewModel {
     private func updateUserFeedAfterPost(postId: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments { snapshot, _ in
-            guard let documenst = snapshot?.documents else { return }
-            documenst.forEach { document in
+            guard let documents = snapshot?.documents else { return }
+            documents.forEach { document in
                 COLLECTION_USERS.document(document.documentID).collection("user-feed").document(postId).setData([:])
             }
-            COLLECTION_FOLLOWERS.document(uid).collection("user-feed").document(postId).setData([:])
+            COLLECTION_USERS.document(uid).collection("user-feed").document(postId).setData([:])
         }
     }
     

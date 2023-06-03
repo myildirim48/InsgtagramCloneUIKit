@@ -76,7 +76,6 @@ struct UserService {
                 }
                 guard let snapShot else { return }
                 guard let user = try? snapShot.data(as: User.self) else { return }
-                
                 completion(user)
             }
     }

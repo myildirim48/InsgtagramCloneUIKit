@@ -35,13 +35,7 @@ class MainTabController: UITabBarController {
     
     func checkIfUserLoggedIn() {
         if Auth.auth().currentUser == nil {
-            DispatchQueue.main.async {
-                let controller = LoginController()
-                controller.delegate = self
-                let nav = UINavigationController(rootViewController: controller)
-                nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true)
-            }
+            presentLoginController()
         }
     }
     
@@ -115,8 +109,8 @@ class MainTabController: UITabBarController {
 //MARK: - Authentication Delegate
 extension MainTabController: AuthenticationDelegate {
     func authenticationCompleted() {
-        self.dismiss(animated: true)
         fetchUser()
+        self.dismiss(animated: true)
     }
 }
 
