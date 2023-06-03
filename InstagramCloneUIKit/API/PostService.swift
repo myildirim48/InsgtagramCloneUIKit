@@ -10,18 +10,18 @@ import Firebase
 import FirebaseFirestoreSwift
 
 struct PostService {
-//    static func fetchPosts(completion: @escaping([Post]) -> Void) {
-//        COLLECTION_POSTS.order(by: "timestamp", descending: true).getDocuments { snapShot, error in
-//            if let error {
-//                print("DEBUG: Error while fetching posts. \(error.localizedDescription)")
-//                return
-//            }
-//            guard let documents = snapShot?.documents else { return }
-//            let posts = documents.compactMap { try? $0.data(as: Post.self) }
-//            completion(posts)
-//        }
-//    }
-//
+    static func fetchPosts(completion: @escaping([Post]) -> Void) {
+        COLLECTION_POSTS.order(by: "timestamp", descending: true).getDocuments { snapShot, error in
+            if let error {
+                print("DEBUG: Error while fetching posts. \(error.localizedDescription)")
+                return
+            }
+            guard let documents = snapShot?.documents else { return }
+            let posts = documents.compactMap { try? $0.data(as: Post.self) }
+            completion(posts)
+        }
+    }
+
     static func fetchPost(withPostId id: String, completion: @escaping(Post) -> Void ) {
         COLLECTION_POSTS.document(id).getDocument { snapshot, error in
             if let error {
