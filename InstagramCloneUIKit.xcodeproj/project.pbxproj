@@ -62,6 +62,7 @@
 		7462DC5B2A29DC4A000C3F58 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC5A2A29DC4A000C3F58 /* Notification.swift */; };
 		7462DC5D2A29DE1A000C3F58 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC5C2A29DE1A000C3F58 /* NotificationService.swift */; };
 		7462DC5F2A29E978000C3F58 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC5E2A29E978000C3F58 /* NotificationViewModel.swift */; };
+		7462DC612A2A5B28000C3F58 /* ResetPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462DC602A2A5B28000C3F58 /* ResetPasswordController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +115,7 @@
 		7462DC5A2A29DC4A000C3F58 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		7462DC5C2A29DE1A000C3F58 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		7462DC5E2A29E978000C3F58 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
+		7462DC602A2A5B28000C3F58 /* ResetPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +263,7 @@
 			children = (
 				7462DC022A22069C000C3F58 /* LoginController.swift */,
 				7462DC042A2206A1000C3F58 /* RegistrationController.swift */,
+				7462DC602A2A5B28000C3F58 /* ResetPasswordController.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 				7462DC412A25E252000C3F58 /* InputTextView.swift in Sources */,
 				741155352A20B590009843F9 /* ImageSelectorController.swift in Sources */,
 				7462DC432A25EAFE000C3F58 /* PostService.swift in Sources */,
+				7462DC612A2A5B28000C3F58 /* ResetPasswordController.swift in Sources */,
 				741155312A20B579009843F9 /* FeedController.swift in Sources */,
 				7462DC5B2A29DC4A000C3F58 /* Notification.swift in Sources */,
 				741155392A20B62D009843F9 /* ProfileController.swift in Sources */,

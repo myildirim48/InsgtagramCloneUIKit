@@ -20,6 +20,7 @@ extension UIImageView{
 }
 
 
+
 //MARK: - UIViewController extensions
 extension UIViewController {
     static let hud = JGProgressHUD(style: .dark)

@@ -104,7 +104,9 @@ class LoginController: UIViewController {
     }
     
     @objc func handleForgotPassword() {
-        
+        let controller = ResetPasswordController()
+        controller.delegate = self
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     @objc func handleRegister() {
@@ -130,4 +132,11 @@ extension LoginController: FormViewModel {
         authButton.isEnabled = viewModel.formIsValid
     }
 }
-
+//MARK: - ResetPasswordDelegate
+extension LoginController: ResetPasswordControllerDelegate {
+    func didSendResetPasswordLink(_ controller: ResetPasswordController) {
+        navigationController?.popViewController(animated: true)
+        showMessage(withTitle: "Success",
+                    message: "We sent a link to your email to reset your password.")
+    }
+}

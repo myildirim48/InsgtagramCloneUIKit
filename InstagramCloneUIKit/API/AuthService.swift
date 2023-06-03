@@ -43,4 +43,8 @@ struct AuthService {
     static func logUserIn(email: String, password: String, completion: @escaping((AuthDataResult?, Error?) -> Void)) {
         Auth.auth().signIn(withEmail: email, password: password, completion: completion)
     }
+    
+    static func resetPassword(withEmail email: String, completion: @escaping(FirestoreCompletion)) {
+        Auth.auth().sendPasswordReset(withEmail: email, completion: completion)
+    }
 }
